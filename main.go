@@ -2,13 +2,8 @@
 
 package main
 
-import (
-	"fmt"
-
-	"github.com/michelemendel/genvaeg/util"
-)
-
 func main() {
-	randomString := util.GenerateRandomString(10)
-	fmt.Println("Random String:", randomString)
+	// us := urlshortener.NewURLShortener(constants.CHAR_SET_FULL, "http://genvaeg.com")
+	// randomString := us.GenerateRandomString(10)
+	// fmt.Println("Random String:", randomString)
 }

@@ -1,21 +1,22 @@
 package util
 
 import (
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"log"
 	"log/slog"
-	"math/rand"
+	"os"
+	"path/filepath"
+	"regexp"
 	"strconv"
-	"strings"
 	"sync"
-	"time"
 
 	"github.com/google/uuid"
 	"github.com/joho/godotenv"
 	"golang.org/x/crypto/bcrypt"
 )
+
+const projectDirName = "genvaeg"
 
 var once sync.Once
 
@@ -24,11 +25,20 @@ func InitEnv() {
 }
 
 func InitEnvExec() {
-	envFile := ".env"
+	envFile := filepath.Join(string(GetRootDir()), ".env")
 	err := godotenv.Load(envFile)
 	if err != nil {
-		log.Fatal("[utils]:error loading env file:", envFile)
+		log.Fatal("error loading env file:", envFile)
 	}
+}
+
+// We have to dynamically find the project root directory, because
+// it's different for tests and the main server.
+func GetRootDir() string {
+	projectRootDirRe := regexp.MustCompile(`^.*` + projectDirName + ``)
+	cwd, _ := os.Getwd()
+	projectRootDir := projectRootDirRe.Find([]byte(cwd))
+	return string(projectRootDir)
 }
 
 func GenerateUUID() string {
@@ -48,26 +58,6 @@ func HashPassword(password string) (string, error) {
 func ValidatePassword(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
-}
-
-// Generate a random password with n charactes.
-func GeneratePassword() string {
-	aLongString := base64.StdEncoding.EncodeToString([]byte(GenerateUUID()))
-	return strings.ToLower(aLongString[0:8])
-}
-
-// Generate a random string with n charactes.
-// Used for the URL shortening.
-func GenerateRandomString(length int) string {
-	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-	seed := rand.NewSource(time.Now().UnixNano())
-	random := rand.New(seed)
-
-	result := make([]byte, length)
-	for i := range result {
-		result[i] = charset[random.Intn(len(charset))]
-	}
-	return string(result)
 }
 
 func String2Int(s string) int {

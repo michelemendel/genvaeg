@@ -24,8 +24,13 @@ const (
 	ROUTE_LOGOUT = "/logout"
 	//
 	ROUTE_CREATE_SHORT_URL = "/create"
-	ROUTE_LIST_SHORT_URLS  = "/list"
+	ROUTE_LIST_URLS        = "/list"
 	ROUTE_REDIRECT         = "/rd"
 	//
 	ROUTE_PING = "/ping"
+)
+
+const (
+	CHAR_SET_FULL = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	CHAR_SET_TEST = "ab"
 )

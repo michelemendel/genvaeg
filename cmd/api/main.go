@@ -15,6 +15,7 @@ import (
 	"github.com/michelemendel/genvaeg/handler"
 	repo "github.com/michelemendel/genvaeg/repository"
 	"github.com/michelemendel/genvaeg/routes"
+	"github.com/michelemendel/genvaeg/urlshortener"
 	"github.com/michelemendel/genvaeg/util"
 )
 
@@ -28,9 +29,9 @@ func main() {
 
 	fmt.Printf("ENVIRONMENT:\nmode:%s\nwebServerPort:%s\n", env, webServerPort)
 
-	r := repo.NewRepo()
-	defer r.DB.Close()
-	s := auth.NewSession(r)
+	repo := repo.NewRepo()
+	defer repo.DB.Close()
+	s := auth.NewSession(repo)
 
 	e := echo.New()
 	e.Pre(middleware.RemoveTrailingSlash())
@@ -38,7 +39,9 @@ func main() {
 	e.Use(s.Authenticate)
 	e.HTTPErrorHandler = customHTTPErrorHandler
 
-	hCtx := handler.NewHandlerContext(e, r)
+	us := urlshortener.NewURLShortener(consts.CHAR_SET_FULL, repo)
+	hCtx := handler.NewHandlerContext(e, repo, us)
+
 	routes.Routes(e, hCtx)
 	slog.Debug("Starting server", "port", webServerPort)
 	e.Logger.Fatal(e.Start(":" + webServerPort))

@@ -14,7 +14,7 @@ func Routes(e *echo.Echo, hCtx *handler.HandlerContext) {
 	e.GET(constants.ROUTE_LOGOUT, hCtx.NotYetImplementedHandler)
 
 	// Shorten
-	e.GET(constants.ROUTE_CREATE_SHORT_URL, hCtx.NotYetImplementedHandler)
-	e.GET(constants.ROUTE_LIST_SHORT_URLS, hCtx.NotYetImplementedHandler)
+	e.GET(constants.ROUTE_CREATE_SHORT_URL+"/:full", hCtx.CreateShortURLHandler)
+	e.GET(constants.ROUTE_LIST_URLS, hCtx.NotYetImplementedHandler)
 	e.GET(constants.ROUTE_REDIRECT, hCtx.RedirectHandler)
 }
