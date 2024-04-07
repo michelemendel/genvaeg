@@ -26,6 +26,33 @@ func (r *Repo) GetUser(name string) (entity.User, error) {
 	return user, nil
 }
 
+func (r *Repo) GetAllUsers() []entity.User {
+	var users []entity.User
+	rows, err := r.DB.Query(`
+    SELECT 
+      uuid, 
+      name 
+    FROM users`)
+	if err != nil {
+		slog.Error(err.Error())
+		return users
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var user entity.User
+		err := rows.Scan(&user.UUID, &user.Name)
+		if err != nil {
+			slog.Error(err.Error())
+			return users
+		}
+		users = append(users, user)
+	}
+	slog.Info("GetAllUsers")
+	return users
+
+}
+
 func (r *Repo) GetURLPairByFullURL(fullURL string) (entity.URLPair, error) {
 	var url entity.URLPair
 	err := r.DB.QueryRow(`

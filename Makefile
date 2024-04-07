@@ -20,3 +20,14 @@ serverwatch: build_server
 
 pg: build_pg
 	@./bin/pg
+
+	# --------------------------------------------------------------------------------
+# CLI
+
+build_cli:
+	@go build -o bin/cli ./cmd/cli/main.go 
+
+# @go run ./cli/cli.go
+cli: build_cli
+	@./bin/cli
+	
