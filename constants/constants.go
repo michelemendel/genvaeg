@@ -24,8 +24,8 @@ const (
 	ROUTE_LOGOUT = "/logout"
 	//
 	ROUTE_CREATE_SHORT_URL = "/create"
-	ROUTE_LIST_URLS        = "/list"
-	ROUTE_REDIRECT         = "/rd"
+	ROUTE_LIST_URLS        = "/urls"
+	ROUTE_REDIRECT         = "/"
 	//
 	ROUTE_PING = "/ping"
 )

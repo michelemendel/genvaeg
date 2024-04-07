@@ -7,7 +7,25 @@ import (
 	"github.com/michelemendel/genvaeg/entity"
 )
 
-func (r *Repo) GetUser(name string) (entity.User, error) {
+func (r *Repo) GetUserByUUID(uuid string) (entity.User, error) {
+	var user entity.User
+	err := r.DB.QueryRow(`
+    SELECT 
+      uuid, 
+      name, 
+      hashedpassword 
+    FROM users 
+    WHERE uuid = ?`,
+		uuid,
+	).Scan(&user.UUID, &user.Name, &user.HashedPassword)
+	if err != nil {
+		slog.Error(err.Error(), "uuid", uuid)
+		return user, fmt.Errorf("error getting user by uuid, error: %w", err)
+	}
+	return user, nil
+}
+
+func (r *Repo) GetUserByName(name string) (entity.User, error) {
 	var user entity.User
 	err := r.DB.QueryRow(`
     SELECT 
@@ -53,22 +71,22 @@ func (r *Repo) GetAllUsers() []entity.User {
 
 }
 
-func (r *Repo) GetURLPairByFullURL(fullURL string) (entity.URLPair, error) {
+func (r *Repo) GetFullURLByShortURL(shortURLPath string) (string, error) {
 	var url entity.URLPair
 	err := r.DB.QueryRow(`
   SELECT 
   fullurl, 
   shorturlpath 
   FROM urls 
-  WHERE fullurl = ?`,
-		fullURL,
+  WHERE shorturlpath = ?`,
+		shortURLPath,
 	).Scan(&url.FullURL, &url.ShortURL)
 	if err != nil {
-		slog.Error(err.Error(), "fullURL", fullURL)
-		return url, fmt.Errorf("error getting URL pair by full URL, error: %w", err)
+		slog.Error(err.Error(), "shortURLPath", shortURLPath)
+		return "", fmt.Errorf("error getting fullURL by shortURLPath, error: %w", err)
 	}
-	slog.Info("GetURLPairByFullURL", "fullURL", fullURL)
-	return url, nil
+	slog.Info("GetURLPairByFullURL", "fullURL", shortURLPath)
+	return url.FullURL, nil
 }
 
 func (r *Repo) DoesShortURLExists(shortURL string) bool {

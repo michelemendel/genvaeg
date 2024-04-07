@@ -32,7 +32,7 @@ var readUserCmd = &cobra.Command{
 			return
 		}
 		name := args[0]
-		u, err := repo.GetUser(name)
+		u, err := repo.GetUserByName(name)
 		if err != nil {
 			fmt.Printf("error reading user %s. %s\n", name, err)
 			return
