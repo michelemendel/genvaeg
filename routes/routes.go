@@ -9,12 +9,12 @@ import (
 
 func Routes(e *echo.Echo, hCtx *handler.HandlerContext) {
 	// Auth
-	e.POST(constants.ROUTE_SIGNUP, hCtx.NotYetImplementedHandler)
-	e.POST(constants.ROUTE_LOGIN, hCtx.NotYetImplementedHandler)
-	e.GET(constants.ROUTE_LOGOUT, hCtx.NotYetImplementedHandler)
+	e.POST(constants.ROUTE_SIGNUP, hCtx.SignupHandler)
+	e.POST(constants.ROUTE_LOGIN, hCtx.LoginHandler)
+	e.GET(constants.ROUTE_LOGOUT, hCtx.LogoutHandler)
 
 	// Shorten
 	e.GET(constants.ROUTE_CREATE_SHORT_URL, hCtx.CreateShortURLHandler)
 	e.GET(constants.ROUTE_LIST_URLS, hCtx.ListURLsHandler)
-	e.GET(constants.ROUTE_REDIRECT+":shorturlpath", hCtx.RedirectHandler)
+	e.GET(constants.ROUTE_REDIRECT+"r/:shorturlpath", hCtx.RedirectHandler)
 }

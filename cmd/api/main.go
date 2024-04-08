@@ -31,16 +31,16 @@ func main() {
 
 	repo := repo.NewRepo()
 	defer repo.DB.Close()
-	s := auth.NewSession(repo)
+	sess := auth.NewSession(repo)
 
 	e := echo.New()
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte(os.Getenv(consts.ENV_SESSION_KEY_KEY)))))
-	e.Use(s.Authenticate)
+	e.Use(sess.Authenticate)
 	e.HTTPErrorHandler = customHTTPErrorHandler
 
 	us := urlshortener.NewURLShortener(consts.CHAR_SET_FULL, repo)
-	hCtx := handler.NewHandlerContext(e, repo, us)
+	hCtx := handler.NewHandlerContext(e, sess, repo, us)
 
 	routes.Routes(e, hCtx)
 	slog.Debug("Starting server", "port", webServerPort)
@@ -56,17 +56,13 @@ func customHTTPErrorHandler(err error, c echo.Context) {
 
 	slog.Warn("httpError", "code", code)
 
-	// Authentication (used forbidden here (403), since we use echo.ErrUnauthorized (401) for authorization)
 	if code == echo.ErrForbidden.Code {
-		c.Redirect(http.StatusTemporaryRedirect, "/login")
+		// c.Redirect(http.StatusTemporaryRedirect, "/login")
+		c.String(code, "Forbidden\n")
 		return
 	}
 
-	// errorPage := fmt.Sprintf("./public/%d.html", code)
-	// fileErr := c.File(errorPage)
-	// if fileErr != nil {
-	// 	c.Logger().Error(fileErr)
-	// }
+	// Here we could add more error handling, like returning error pages specific to the error code.
 
 	c.String(code, fmt.Sprintf("Error %s\n", err.Error()))
 }
