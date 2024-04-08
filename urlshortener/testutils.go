@@ -17,7 +17,7 @@ func InitTest() *repository.Repo {
 	os.Setenv(constants.ENV_DB_NAME_KEY, "test.db")
 	os.Setenv(constants.ENV_DB_DIR_KEY, dbDir)
 
-	fmt.Println("DB_SERVER", dbDir, os.Getenv(constants.ENV_DB_NAME_KEY))
+	fmt.Println("DB test file", path.Join(dbDir, os.Getenv(constants.ENV_DB_NAME_KEY)))
 
 	repo := repository.NewRepo()
 

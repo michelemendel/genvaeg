@@ -57,7 +57,6 @@ func customHTTPErrorHandler(err error, c echo.Context) {
 	slog.Warn("httpError", "code", code)
 
 	if code == echo.ErrForbidden.Code {
-		// c.Redirect(http.StatusTemporaryRedirect, "/login")
 		c.String(code, "Forbidden\n")
 		return
 	}

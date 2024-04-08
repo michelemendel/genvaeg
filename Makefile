@@ -25,7 +25,7 @@ pg: build_pg
 # Tests
 
 tests:
-	@go test ./urlshortener -run TestUrlShortener -count=1 -v
+	@go test ./urlshortener -v -count=1
 
 # --------------------------------------------------------------------------------
 # CLI

@@ -31,9 +31,6 @@ func (us *URLShortener) MakeShortURL(fullURL string, user entity.User) error {
 		err := us.TryShortURL(length, fullURL, user)
 		if err == nil {
 			break
-		} else {
-			fmt.Println("-----------", err)
-			return err
 		}
 
 		length++

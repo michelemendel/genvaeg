@@ -22,13 +22,9 @@ func (h *HandlerContext) RedirectHandler(c echo.Context) error {
 	return c.Redirect(http.StatusMovedPermanently, fullURL)
 }
 
-// curl -L -v -b cookies.txt 'http://localhost:8080/create?url=http://vg.no'
-// Bad url
-// curl -L -v -b cookies.txt 'http://localhost:8080/create?url=xxxxxx'
-// Bad user
-// curl -L -v -b cookies.txt 'http://localhost:8080/create?url=http://vg.no'
+// curl -L -v -b cookies.txt 'http://localhost:8080/create' -d 'url=http://vg.no' -H 'Content-Type: application/x-www-form-urlencoded'
 func (h *HandlerContext) CreateShortURLHandler(c echo.Context) error {
-	fullURL := c.QueryParam("url")
+	fullURL := c.FormValue("url")
 
 	userSession, err := h.Session.GetLoggedInUser(c)
 	if err != nil {

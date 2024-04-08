@@ -9,21 +9,9 @@ import (
 )
 
 const (
-	CHAR_SET_SHORT = "ab"
+	CHAR_SET_SHORT = "ab" //We make this very short to quickly hit the limit of unique short URLs, to easier test that the algorithm works.
 	BASE_URL       = "http://genvaeg.com"
 )
-
-func TestRemove(t *testing.T) {
-	repo := InitTest()
-
-	// Create user
-	hPw, _ := util.HashPassword("test")
-	user := entity.NewUser("abe", hPw)
-	err := repo.CreateUser(user)
-	if err != nil {
-		t.Errorf("Error creating user: %v", err)
-	}
-}
 
 func TestUrlShortener(t *testing.T) {
 	repo := InitTest()
@@ -58,6 +46,9 @@ func TestUrlShortener(t *testing.T) {
 		t.Errorf("Short URLs are not unique")
 	}
 }
+
+//--------------------------------------------------------------------------------
+// Test helpers
 
 func removeDuplicate(strSlice []string) []string {
 	allKeys := make(map[string]bool)

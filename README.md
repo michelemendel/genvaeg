@@ -39,17 +39,17 @@ To reset the database and get an easier read of users and URLs, see CLI below
 ### Run
 
 1. Signup
-   - `curl -X POST -L -v 'http://localhost:8080/signup' -d 'name=abe&pw=abe&repeatpw=abe' -H 'Content-Type: application/x-www-form-urlencoded'`
+   - `curl -X POST -L 'http://localhost:8080/signup' -d 'name=abe&pw=abe&repeatpw=abe' -H 'Content-Type: application/x-www-form-urlencoded'`
 2. Login
-   - `curl -X POST -L -v -c cookies.txt 'http://localhost:8080/login' -d 'name=abe&pw=abe' -H 'Content-Type: application/x-www-form-urlencoded'`
+   - `curl -X POST -L -c cookies.txt 'http://localhost:8080/login' -d 'name=abe&pw=abe' -H 'Content-Type: application/x-www-form-urlencoded'`
 3. Create short URL
-   - `curl -L -v -b cookies.txt 'http://localhost:8080/create?url=http://vg.no'`
+   - `curl -L -b cookies.txt 'http://localhost:8080/create' -d 'url=http://vg.no' -H 'Content-Type: application/x-www-form-urlencoded'`
 4. List short codes
    - `./bin/cli urls`
 5. Use short url
-   - `curl -L -v 'http://localhost:8080/r/<a short code from p4>'`
+   - `curl -L 'http://localhost:8080/r/<a short code from p4>'`
 6. Logout
-   - `curl -L -v 'http://localhost:8080/logout'`
+   - `curl -L 'http://localhost:8080/logout'`
 
 # CLI (kind of a backoffice)
 
@@ -74,3 +74,6 @@ With the CLI you can:
 - Add authorization if needed.
 - More tests, e.g. integration tests from http to database.
 
+# Known bugs
+
+- Logout doesn't seem to invalidate the cookie.
