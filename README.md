@@ -5,16 +5,11 @@
 
 https://github.com/shortcut/sweden-coding-challenge-backend/
 
-### Examples of other URL shorteners
-
-- https://free-url-shortener.rb.gy/
-- https://www.shorturl.at/shortener.php
-
 # Layout
 
 - The application uses the Echo routing framework.
 - Since this is a small application, the handlers communicate directly with the database.
-- The database is SQLite3, which means it's only a file, so there is no database server to start.
+- For simplicity sake the database is SQLite3, which means it's only a file, so there is no database server to start.
 - The shortener creates a short code, and will retry if a code already exists.
 
 # Development
@@ -65,9 +60,9 @@ With the CLI you can:
 
 # Further work towards production
 
+- Use a database server, like MySQL/MariaDb, PostgreSQL, preferable with Docker.
 - Remove .env file from Git repo, since this will be different in production, and will probably contain secrets codes.
 - Use TLS. The Echo is using Let's Encrypt.
-- Use a database server, like MySQL/MariaDb, PostgreSQL, preferable with Docker.
 - Dockerize the server for easier handling behind a firewall.
 - Add extra layers to the design - like a service layer - if needed.
 - Fill out the functionality where needed, e.g. with more CRUD operations.
