@@ -12,7 +12,7 @@ I don't like complications for the reason that there may be a need in the future
 - I've been following a common structure of the code. The API and CLI start in the cmd folder.
 - The application uses the Echo routing framework, but any routing framework would do the job just as well.
 - Since this is a small application, the handlers communicate directly with the database.
-- For simplicity sake I chose to use SQLite3 since it's only a file, so there is no database server to start. This can easily be replace by a db server like MySQL or PostgreSQL.
+- For simplicity sake I chose to use SQLite3 since it's only a file, so there is no database server to start. This can easily be replaced by a db server like MySQL or PostgreSQL.
 - The shortener creates a random short code, and will retry until this code is unique.
 - I like to to "make", since it makes my life easier.
 
